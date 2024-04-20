@@ -1,4 +1,5 @@
 import * as typeorm from 'typeorm';
+import crypto from 'node:crypto';
 
 @typeorm.Entity()
 export class User {
@@ -21,7 +22,7 @@ export class User {
 // type is typeorm.ConnectionOptions for <0.3.0
 // and typeorm.DataSourceOptions for >=0.3.0
 export const defaultOptions: any = {
-    name: crypto.randomUUID(),
+    name: crypto.randomBytes(12).toString('hex'),
     type: 'sqlite',
     database: ':memory:',
     dropSchema: true,
