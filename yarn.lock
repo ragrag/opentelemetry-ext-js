@@ -8460,7 +8460,7 @@
   "resolved" "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   "version" "0.0.6"
 
-"typeorm@0.3.17":
+"typeorm@0.2.42":
   "integrity" "sha512-OGelrY5qEoAU80mR1iyvmUHiKCPUydL6xp6bebXzS7jyv/X70Gp/jBWRAfF4qGOfy2A7orMiGRfwsBUNbEL65g=="
   "resolved" "https://registry.npmjs.org/typeorm/-/typeorm-0.3.19.tgz"
   "version" "0.3.19"

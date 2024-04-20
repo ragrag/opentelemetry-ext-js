@@ -24,6 +24,7 @@ describe('QueryBuilder', () => {
         const users = await queryBuilder.where('user.id = :userId', { userId: '1' }).getManyAndCount();
         expect(users.length).toBe(2);
         const typeOrmSpans = getTestSpans();
+        console.log({typeOrmSpans}, typeOrmSpans.length)
         expect(typeOrmSpans.length).toBe(1);
         expect(typeOrmSpans[0].status.code).toBe(SpanStatusCode.UNSET);
         const attributes = typeOrmSpans[0].attributes;

@@ -2,7 +2,7 @@ import 'mocha';
 import expect from 'expect';
 import { SpanStatusCode, trace } from '@opentelemetry/api';
 import { SemanticAttributes } from '@opentelemetry/semantic-conventions';
-import { TypeormInstrumentation, TypeormInstrumentationConfig } from '../src';
+import { TypeormInstrumentation } from '../src';
 import { getTestSpans } from '@opentelemetry/contrib-test-utils';
 import { context, ROOT_CONTEXT } from '@opentelemetry/api';
 
@@ -131,7 +131,6 @@ describe('EntityManager', () => {
         };
 
         it('appends matching connection details to span', async () => {
-
             const [sqlite1, sqlite2] = await typeorm.createConnections([options1, options2]);
             const manager1 = sqlite1.createEntityManager();
             const manager2 = sqlite2.createEntityManager();
