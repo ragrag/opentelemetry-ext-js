@@ -14,6 +14,7 @@ import {
     safeExecuteInTheMiddle,
 } from '@opentelemetry/instrumentation';
 import isPromise from 'is-promise';
+import { shouldSkipInstrumentation } from './utils/skip-instrumentation';
 
 type SelectQueryBuilderMethods = keyof typeorm.SelectQueryBuilder<any>;
 const selectQueryBuilderExecuteMethods: SelectQueryBuilderMethods[] = [
@@ -51,8 +52,13 @@ const entityManagerMethods: EntityManagerMethods[] = [
 
 export class TypeormInstrumentation extends InstrumentationBase<any> {
     protected override _config!: TypeormInstrumentationConfig;
+
     constructor(config: TypeormInstrumentationConfig = {}) {
         super('opentelemetry-instrumentation-typeorm', VERSION, Object.assign({}, config));
+    }
+
+    override setConfig(config: TypeormInstrumentationConfig = {}) {
+        this._config = Object.assign({}, config);
     }
 
     protected init(): InstrumentationModuleDefinition<any> {
@@ -165,6 +171,11 @@ export class TypeormInstrumentation extends InstrumentationBase<any> {
                 if (isTypeormInternalTracingSuppressed(context.active())) {
                     return original.apply(this, arguments);
                 }
+
+                if (shouldSkipInstrumentation(self._config)) {
+                    return original.apply(this, arguments);
+                }
+
                 const connectionOptions = this?.connection?.options ?? {};
                 const attributes = {
                     [SemanticAttributes.DB_SYSTEM]: connectionOptions.type,
@@ -227,6 +238,11 @@ export class TypeormInstrumentation extends InstrumentationBase<any> {
                 if (isTypeormInternalTracingSuppressed(context.active())) {
                     return original.apply(this, arguments);
                 }
+
+                if (shouldSkipInstrumentation(self._config)) {
+                    return original.apply(this, arguments);
+                }
+
                 const queryBuilder: typeorm.QueryBuilder<any> = this;
                 const sql = queryBuilder.getQuery();
                 const parameters = queryBuilder.getParameters();
@@ -289,6 +305,11 @@ export class TypeormInstrumentation extends InstrumentationBase<any> {
                 if (isTypeormInternalTracingSuppressed(context.active())) {
                     return original.apply(this, arguments);
                 }
+
+                if (shouldSkipInstrumentation(self._config)) {
+                    return original.apply(this, arguments);
+                }
+
                 const conn: typeorm.Connection = this;
                 const sql = arguments[0];
                 const operation = self.getOperationName(sql);
@@ -370,7 +391,7 @@ export class TypeormInstrumentation extends InstrumentationBase<any> {
 
 const buildStatement = (func: Function, args: any[]) => {
     const paramNames = getParamNames(func);
-    const statement = {};
+    const statement: Record<string, any> = {};
     paramNames.forEach((pName, i) => {
         const value = args[i];
         if (!value) return;
