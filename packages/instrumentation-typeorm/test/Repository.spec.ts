@@ -19,7 +19,7 @@ describe('Repository', () => {
     });
 
     it('findAndCount', async () => {
-        const connection = await typeorm.createConnection(defaultOptions);
+        const connection = await typeorm.createConnection(defaultOptions());
         const repo = connection.getRepository(User);
         const user = new User(1, 'aspecto', 'io');
         await repo.insert(user);

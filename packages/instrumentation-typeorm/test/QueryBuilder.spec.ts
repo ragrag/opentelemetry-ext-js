@@ -18,7 +18,7 @@ describe('QueryBuilder', () => {
     });
 
     it('getManyAndCount', async () => {
-        const connectionOptions = defaultOptions as any;
+        const connectionOptions = defaultOptions();
         const connection = await typeorm.createConnection(connectionOptions);
         const queryBuilder = connection.getRepository(User).createQueryBuilder('user');
         const users = await queryBuilder.where('user.id = :userId', { userId: '1' }).getManyAndCount();
