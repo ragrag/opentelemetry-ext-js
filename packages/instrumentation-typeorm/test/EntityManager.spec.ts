@@ -157,11 +157,14 @@ describe('EntityManager', () => {
 
     describe('requireParentSpan', () => {
         beforeEach(() => {
-            instrumentation.disable();
+            instrumentation.enable();
             instrumentation.setConfig({
                 requireParentSpan: true,
             });
             instrumentation.enable();
+        });
+        afterEach(() => {
+            instrumentation.disable();
         });
 
         it('should not have spans', async () => {

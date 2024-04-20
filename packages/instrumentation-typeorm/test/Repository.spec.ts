@@ -36,11 +36,14 @@ describe('Repository', () => {
 
 describe('requireParentSpan', () => {
     beforeEach(() => {
-        instrumentation.disable();
+        instrumentation.enable();
         instrumentation.setConfig({
             requireParentSpan: true,
         } as TypeormInstrumentationConfig);
-        instrumentation.enable();
+    });
+
+    afterEach(() => {
+        instrumentation.disable();
     });
 
     it('should not have spans', async () => {

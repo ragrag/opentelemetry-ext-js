@@ -10,9 +10,6 @@ import * as typeorm from 'typeorm';
 import { rawQueryOptions } from './utils';
 
 describe('Connection', () => {
-    after(() => {
-        instrumentation.enable();
-    });
     beforeEach(() => {
         instrumentation.enable();
     });
