@@ -11,9 +11,6 @@ import * as typeorm from 'typeorm';
 import { defaultOptions, User } from './utils';
 
 describe('EntityManager', () => {
-    after(() => {
-        instrumentation.enable();
-    });
     beforeEach(() => {
         instrumentation.enable();
     });
