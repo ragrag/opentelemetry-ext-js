@@ -21,6 +21,7 @@ export class User {
 // type is typeorm.ConnectionOptions for <0.3.0
 // and typeorm.DataSourceOptions for >=0.3.0
 export const defaultOptions: any = {
+    name: crypto.randomUUID(),
     type: 'sqlite',
     database: ':memory:',
     dropSchema: true,
